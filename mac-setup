@@ -1,0 +1,120 @@
+#!/bin/bash
+
+# Colors/Effects
+RESET="$(tput sgr 0)"
+RED="$(tput setaf 1)"
+GREEN="$(tput setaf 2)"
+YELLOW="$(tput setaf 3)"
+BLUE="$(tput setaf 4)"
+MAGENTA="$(tput setaf 5)"
+WHITE="$(tput setab 7)"
+BLACK="$(tput setab 0)"
+CLEAR="$(tput clear)"
+BOLD="$(tput bold)"
+UNDERLINE="$(tput smul)"
+
+confirm() {
+  case "$1" in
+    [yY][eE][sS]|[yY])
+    return 0;;
+    *)
+      echo -e "\n👋 That's all for now."
+      exit;;
+  esac
+}
+
+function run() {
+  if $(eval "$1"); then echo ${GREEN} ✔︎ ${RESET}; else echo ${RED} ✗ ${RESET}; fi
+  echo -e "\n"
+}
+
+function title() {
+  echo -n "${UNDERLINE}"$1"...${RESET}" 
+}
+
+function newline_title() {
+  echo "${UNDERLINE}"$1"...${RESET}" 
+}
+
+read -rd '' ascii_data <<EOF
+${GREEN}${BOLD}                    'c.           
+                 ,xNMM.           
+               .OMMMMo            
+               OMMM0,             
+     .;loddo:' loolloddol;.        ,dPYb,              ,dPYb, ,dPYb,
+${YELLOW}   cKMMMMMMMMMMNWMMMMMMMMMM0:      IP''Yb              IP''Yb IP''Yb
+ .KMMMMMMMMMMMMMMMMMMMMMMMWd.      I8  8I              I8  8I I8  8I
+ XMMMMMMMMMMMMMMMMMMMMMMMX.        I8  8'              I8  8' I8  8'
+${RED};MMMMMMMMMMMMMMMMMMMMMMMM:         I8 dPgg,    ,ggg,   I8 dP  I8 dP    ,ggggg,
+:MMMMMMMMMMMMMMMMMMMMMMMM:         I8dP' '8I  i8' '8i  I8dP   I8dP    dP'  'Y8ggP
+.MMMMMMMMMMMMMMMMMMMMMMMMX.        I8P    I8  I8, ,8I  I8P    I8P    i8'    ,8I
+${MAGENTA} kMMMMMMMMMMMMMMMMMMMMMMMMWd.     ,d8     I8, Y8baP'  ,d8b,_ ,d8b,_ ,d8,   ,d8'
+ .XMMMMMMMMMMMMMMMMMMMMMMMMMMk    88P     'Y8888P 88888P''Y888P''Y88P'Y88888P
+  .XMMMMMMMMMMMMMMMMMMMMMMMMK.   -----------------------------------------------
+${BLUE}    kMMMMMMMMMMMMMMMMMMMMMMd    ------------------------------------------------
+     ;KMMMMMMMWXXWMMMMMMMk.    -------------------------------------------------
+       .cooc,.    .,coo:.     --------------------------------------------------  
+EOF
+
+clear
+echo -e "\n\n$ascii_data"
+echo -e "${RESET}\n\n"
+echo -e "${BOLD}💻 🎊  Welcome to your new Mac  🎉 🖥\n\n${RESET}"
+read -rp "🤷‍♀️ This script will install your apps and set your configuration. [Y]es to continue, any other key to abort. " response
+confirm "$response"
+echo -e "\n"
+
+sudo -v || exit
+while true; do sudo -n true; sleep 60; kill -0 $$; done &>/dev/null &
+start=$(date +%s)
+
+title "Disabling Gatekeeper"
+run "sudo spctl --master-disable"
+
+title "Deactivating guest account"
+run "sudo /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool NO"
+
+title "Setting default Finder window"
+run "defaults write com.apple.finder NewWindowTarget -string PfHm"
+
+title "Setting dock to autohide"
+run "defaults write com.apple.dock autohide -bool true"
+
+title "Setting minimize effect to scale"
+run "defaults write com.apple.dock mineffect -string scale"
+
+title "Restarting Dock"
+run "killall Dock"
+
+newline_title "Installing Homebrew"
+if type "brew" >/dev/null; then 
+  echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"
+else
+  yes "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+echo -e "\n"
+
+newline_title "Installing CLI apps"
+apps=(rbenv nvm python3 shellcheck neofetch cmatrix)
+for app in "${apps[@]}"; do brew install "$app"; echo -e "\n"; done
+
+newline_title "Updating pip"
+pip3 install --upgrade pip setuptools wheel
+echo -e "\n";
+
+newline_title "Installing applications"
+apps=(atom rectangle iterm2 notable)
+for app in "${apps[@]}"; do brew cask install "$app"; echo -e "\n"; done
+
+newline_title "Installing fonts"
+fonts=(font-fira-code)
+for font in "${fonts[@]}"; do brew cask install "$font"; echo -e "\n"; done
+
+open "/Applications/Atom.app"
+open "/Applications/Rectangle.app"
+
+end=$(date +%s)
+runtime=$((end-start))
+
+echo -e "\n⌛️ Total Time: $runtime seconds"
+echo -e "\n👋 That's all for now."

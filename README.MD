@@ -15,7 +15,7 @@ Preferences:
 CLI Apps:
 - [Homebrew](https://brew.sh/)
 - [rbenv](https://github.com/rbenv/rbenv)
-- [nvm](https://github.com/nvm-sh/nvm)
+- [nvm & npm](https://github.com/nvm-sh/nvm)
 - [python & pip](https://www.python.org/)
 - [shellcheck](https://github.com/koalaman/shellcheck)
 - [tree](http://mama.indstate.edu/users/ice/tree/)

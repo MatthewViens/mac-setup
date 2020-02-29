@@ -77,6 +77,9 @@ run "sudo /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow Gue
 title "Setting default Finder window"
 run "defaults write com.apple.finder NewWindowTarget -string PfHm"
 
+title "Disabling automatic rearrangement of Spaces"
+run "defaults write com.apple.dock mru-spaces -bool false"
+
 title "Setting dock to autohide"
 run "defaults write com.apple.dock autohide -bool true"
 
@@ -95,8 +98,11 @@ fi
 echo -e "\n"
 
 newline_title "Installing CLI apps"
-apps=(rbenv nvm python3 shellcheck neofetch cmatrix)
+apps=(rbenv nvm python3 shellcheck tree wget neofetch cmatrix)
 for app in "${apps[@]}"; do brew install "$app"; echo -e "\n"; done
+
+newline_title "Installing node via nvm"
+nvm install node
 
 newline_title "Updating pip"
 pip3 install --upgrade pip setuptools wheel

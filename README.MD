@@ -1,4 +1,4 @@
-![screenshot](./screenshot.png "Hello")
+![screenshot](./logo.png "Hello")
 
 # Mac Setup Script
 A personal BASH setup script intended to automate setting preferences and downloading 

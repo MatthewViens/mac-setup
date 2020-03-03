@@ -116,6 +116,9 @@ newline_title "Installing fonts"
 fonts=(font-fira-code)
 for font in "${fonts[@]}"; do brew cask install "$font"; echo -e "\n"; done
 
+newline_title "Downloading iTerm profile"
+curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profiles.json > $HOME/test
+
 open "/Applications/Atom.app"
 open "/Applications/Rectangle.app"
 

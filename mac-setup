@@ -97,6 +97,9 @@ else
 fi
 echo -e "\n"
 
+newline_title "Adding Homebrew Versions"
+brew tap homebrew/cask-versions
+
 newline_title "Installing CLI apps"
 apps=(rbenv nvm python3 shellcheck tree wget neofetch cmatrix)
 for app in "${apps[@]}"; do brew install "$app"; echo -e "\n"; done
@@ -119,7 +122,7 @@ for font in "${fonts[@]}"; do brew cask install "$font"; echo -e "\n"; done
 newline_title "Downloading iTerm profile"
 curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profiles.json > $HOME/iterm-profiles.json
 
-open "/Applications/Atom.app"
+open "/Applications/iTerm.app"
 open "/Applications/Rectangle.app"
 
 end=$(date +%s)

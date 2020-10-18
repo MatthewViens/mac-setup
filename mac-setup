@@ -13,6 +13,11 @@ CLEAR="$(tput clear)"
 BOLD="$(tput bold)"
 UNDERLINE="$(tput smul)"
 
+# Packages
+BREW_PACKAGES=(rbenv python3 shellcheck tree wget neofetch cmatrix)
+CASK_PACKAGES=(visual-studio-code gimp firefox-developer-edition rectangle iterm2 notable)
+FONTS=(font-fira-code)
+
 confirm() {
   case "$1" in
     [yY][eE][sS]|[yY])
@@ -89,6 +94,9 @@ run "defaults write com.apple.dock mineffect -string scale"
 title "Restarting Dock"
 run "killall Dock"
 
+title "Restarting Finder"
+run "killall Finder"
+
 newline_title "Installing Homebrew"
 if type "brew" >/dev/null; then 
   echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"
@@ -101,10 +109,12 @@ newline_title "Adding Homebrew Versions"
 brew tap homebrew/cask-versions
 
 newline_title "Installing CLI apps"
-apps=(rbenv nvm python3 shellcheck tree wget neofetch cmatrix)
-for app in "${apps[@]}"; do brew install "$app"; echo -e "\n"; done
+for app in "${BREW_PACKAGES[@]}"; do brew install "$app"; echo -e "\n"; done
 
-newline_title "Installing node via nvm"
+newline_title "Installing Node Version Manager"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+
+newline_title "Installing current Node via NVM"
 nvm install node
 
 newline_title "Updating pip"
@@ -112,18 +122,13 @@ pip3 install --upgrade pip setuptools wheel
 echo -e "\n";
 
 newline_title "Installing applications"
-apps=(visual-studio-code firefox-developer-edition rectangle iterm2 notable)
-for app in "${apps[@]}"; do brew cask install "$app"; echo -e "\n"; done
+for app in "${CASK_PACKAGES[@]}"; do brew cask install "$app"; echo -e "\n"; done
 
 newline_title "Installing fonts"
-fonts=(font-fira-code)
-for font in "${fonts[@]}"; do brew cask install "$font"; echo -e "\n"; done
+for font in "${FONT[@]}"; do brew cask install "$font"; echo -e "\n"; done
 
 newline_title "Downloading iTerm profile"
 curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profiles.json > $HOME/iterm-profiles.json
-
-open "/Applications/iTerm.app"
-open "/Applications/Rectangle.app"
 
 end=$(date +%s)
 runtime=$((end-start))

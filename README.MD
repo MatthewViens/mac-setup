@@ -1,5 +1,3 @@
-![screenshot](./logo.png "Hello")
-
 # Mac Setup Script
 A personal BASH setup script intended to automate setting preferences and downloading 
 software for a new Mac.
@@ -24,7 +22,8 @@ CLI Apps:
 - [cmatrix](https://github.com/abishekvashok/cmatrix/)
 
 Apps:
-- [Atom](https://atom.io/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Gimp](https://www.gimp.org/)
 - [Rectangle](https://rectangleapp.com/) 
 - [iTerm2](https://iterm2.com)
 - [Notable](https://notable.md/)

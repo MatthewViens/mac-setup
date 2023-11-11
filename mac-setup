@@ -100,7 +100,7 @@ if type "brew" >/dev/null; then
   echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"
 else
   yes "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  (echo); echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/${USER}/.zprofile
+  (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/${USER}/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 echo -e "\n"

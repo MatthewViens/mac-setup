@@ -95,14 +95,13 @@ run "killall Finder"
 
 echo -e "Some preferences will require a reset before being reflected properly in Settings"
 
-newline_title "Installing Xcode Command Line Developer Tools"
-run "xcode-select --install"
-
 newline_title "Installing Homebrew"
 if type "brew" >/dev/null; then 
   echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"
 else
   yes "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  (echo); echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/${USER}/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 echo -e "\n"
 

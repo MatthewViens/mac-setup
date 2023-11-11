@@ -14,9 +14,8 @@ BOLD="$(tput bold)"
 UNDERLINE="$(tput smul)"
 
 # Packages
-BREW_PACKAGES=(rbenv python3 shellcheck tree wget neofetch cmatrix)
-CASK_PACKAGES=(visual-studio-code gimp firefox-developer-edition rectangle iterm2 notable)
-FONTS=(font-fira-code)
+BREW_PACKAGES=(shellcheck tree wget neofetch cmatrix)
+CASK_PACKAGES=(visual-studio-code gimp firefox-developer-edition iterm2 1password raycast obsidian)
 
 confirm() {
   case "$1" in
@@ -73,23 +72,20 @@ sudo -v || exit
 while true; do sudo -n true; sleep 60; kill -0 $$; done &>/dev/null &
 start=$(date +%s)
 
-title "Disabling Gatekeeper"
-run "sudo spctl --master-disable"
-
-title "Deactivating guest account"
-run "sudo /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool NO"
-
 title "Setting default Finder window"
 run "defaults write com.apple.finder NewWindowTarget -string PfHm"
 
 title "Disabling automatic rearrangement of Spaces"
-run "defaults write com.apple.dock mru-spaces -bool false"
+run "defaults write com.apple.dock mru-spaces -int 0"
 
 title "Setting dock to autohide"
-run "defaults write com.apple.dock autohide -bool true"
+run "defaults write com.apple.dock autohide -int 0"
 
 title "Setting minimize effect to scale"
 run "defaults write com.apple.dock mineffect -string scale"
+
+title "Disabling Click wallpaper to reveal desktop"
+run "defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -int 0"
 
 title "Restarting Dock"
 run "killall Dock"
@@ -97,35 +93,27 @@ run "killall Dock"
 title "Restarting Finder"
 run "killall Finder"
 
+echo -e "Some preferences will require a reset before being reflected properly in Settings"
+
 newline_title "Installing Homebrew"
 if type "brew" >/dev/null; then 
   echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"
 else
-  yes "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  yes "" | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 echo -e "\n"
-
-newline_title "Adding Homebrew Versions"
-brew tap homebrew/cask-versions
 
 newline_title "Installing CLI apps"
 for app in "${BREW_PACKAGES[@]}"; do brew install "$app"; echo -e "\n"; done
 
 newline_title "Installing Node Version Manager"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
 newline_title "Installing current Node via NVM"
 nvm install node
 
-newline_title "Updating pip"
-pip3 install --upgrade pip setuptools wheel
-echo -e "\n";
-
 newline_title "Installing applications"
 for app in "${CASK_PACKAGES[@]}"; do brew cask install "$app"; echo -e "\n"; done
-
-newline_title "Installing fonts"
-for font in "${FONT[@]}"; do brew cask install "$font"; echo -e "\n"; done
 
 newline_title "Downloading iTerm profile"
 curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profiles.json > $HOME/iterm-profiles.json

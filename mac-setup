@@ -79,7 +79,10 @@ title "Disabling automatic rearrangement of Spaces"
 run "defaults write com.apple.dock mru-spaces -int 0"
 
 title "Setting dock to autohide"
-run "defaults write com.apple.dock autohide -int 0"
+run "defaults write com.apple.dock autohide -int 1"
+
+title "Disabling show recent items in dock"
+run "defaults write com.apple.dock show-recents -int 0"
 
 title "Setting minimize effect to scale"
 run "defaults write com.apple.dock mineffect -string scale"
@@ -103,6 +106,8 @@ else
   yes "" | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/${USER}/.zprofile
   eval "$(/opt/homebrew/bin/brew shellenv)"
+  source ~/.zprofile
+  brew tap homebrew/cask-versions
 fi
 echo -e "\n"
 

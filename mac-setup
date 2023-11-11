@@ -95,6 +95,9 @@ run "killall Finder"
 
 echo -e "Some preferences will require a reset before being reflected properly in Settings"
 
+newline_title "Installing Xcode Command Line Developer Tools"
+run "xcode-select --install"
+
 newline_title "Installing Homebrew"
 if type "brew" >/dev/null; then 
   echo "${YELLOW}[SKIPPED]: ${RESET}Homebrew is already installed"

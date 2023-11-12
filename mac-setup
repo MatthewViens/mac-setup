@@ -28,6 +28,7 @@ DOCK_APPS=(
   /System/Applications/Messages.app
   /System/Applications/FaceTime.app
   /System/Applications/Music.app
+  /Applications/Steam.app
   /System/Applications/App\ Store.app
   /System/Applications/System\ Preferences.app
 )
@@ -162,6 +163,7 @@ curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profi
 newline_title "Configuring Dock items"
 defaults delete com.apple.dock persistent-apps
 add_app_to_dock
+killall Dock
 
 end=$(date +%s)
 runtime=$((end-start))

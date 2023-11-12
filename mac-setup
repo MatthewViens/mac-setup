@@ -72,6 +72,7 @@ function add_app_to_dock() {
       </dict>
     </dict>"
   done
+}
 
 read -rd '' ascii_data <<EOF
 ${GREEN}${BOLD}                    'c.           

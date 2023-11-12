@@ -60,7 +60,7 @@ function newline_title() {
 function add_app_to_dock() {
   for app in "${DOCK_APPS[@]}"; do "defaults write com.apple.dock persistent-apps -array-add "
     <dict>
-      <key>title-data</key>
+      <key>tile-data</key>
       <dict>
         <key>file-data</key>
         <dict>

@@ -15,22 +15,23 @@ UNDERLINE="$(tput smul)"
 
 # Packages
 BREW_PACKAGES=(shellcheck tree wget neofetch cmatrix)
-CASK_PACKAGES=(visual-studio-code gimp firefox-developer-edition iterm2 1password raycast obsidian steam)
+CASK_PACKAGES=(visual-studio-code gimp firefox-developer-edition iterm2 1password raycast obsidian discord steam)
 DOCK_APPS=(
   /System/Applications/Launchpad.app
+  /Applications/1Password.app
   /Applications/Firefox\ Developer\ Edition.app
   /System/Applications/Mail.app
   /Applications/Visual\ Studio\ Code.app
   /Applications/iTerm.app
   /Applications/Obsidian.app
-  /System/Applications/Contacts.app
   /System/Applications/Calendar.app
   /System/Applications/Messages.app
   /System/Applications/FaceTime.app
+  /Applications/Discord.app
   /System/Applications/Music.app
   /Applications/Steam.app
   /System/Applications/App\ Store.app
-  /System/Applications/System\ Preferences.app
+  /System/Applications/System\ Settings.app
 )
 
 # Functions
@@ -105,6 +106,8 @@ sudo -v || exit
 while true; do sudo -n true; sleep 60; kill -0 $$; done &>/dev/null &
 start=$(date +%s)
 
+cd ~
+
 title "Setting default Finder window"
 run "defaults write com.apple.finder NewWindowTarget -string PfHm"
 
@@ -123,12 +126,6 @@ run "defaults write com.apple.dock mineffect -string scale"
 title "Disabling click wallpaper to reveal desktop"
 run "defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -int 0"
 
-title "Restarting Dock"
-run "killall Dock"
-
-title "Restarting Finder"
-run "killall Finder"
-
 echo -e "Some preferences will require a reset before being reflected properly in Settings"
 echo -e "\n"
 
@@ -143,6 +140,10 @@ else
   brew tap homebrew/cask-versions
 fi
 echo -e "\n"
+
+newline_title "Installing fonts"
+brew tap homebrew/cask-fonts
+brew install --cask "font-caskaydia-cove-nerd-font"
 
 newline_title "Installing CLI apps"
 for app in "${BREW_PACKAGES[@]}"; do brew install "$app"; echo -e "\n"; done
@@ -163,6 +164,17 @@ curl https://raw.githubusercontent.com/MatthewViens/mac-setup/master/iterm-profi
 newline_title "Configuring Dock items"
 defaults delete com.apple.dock persistent-apps
 add_app_to_dock
+
+title "Setting prompt"
+touch ~/.zshrc
+echo "neofetch" >> ~/.zshrc
+echo "echo $'\n'" >> ~/.zshrc
+echo "export PROMPT=$'%B%m%b %~\n󰅂 '" >> ~/.zshrc
+
+title "Restarting Finder"
+killall Finder
+
+title "Restarting Dock"
 killall Dock
 
 end=$(date +%s)
@@ -170,3 +182,5 @@ runtime=$((end-start))
 
 echo -e "\n⌛️ Total Time: $runtime seconds"
 echo -e "\n👋 That's all for now."
+
+source ~/.zshrc

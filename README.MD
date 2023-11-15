@@ -2,34 +2,37 @@
 A personal BASH setup script intended to automate setting preferences and downloading 
 software for a new Mac.
 
-Preferences:
-- Disables Gatekeeper.
-- Deactivates Guest user account.
+Sets preferences:
+- Disables click wallpaper to reveal desktop.
 - Sets the default Finder window to Home.
 - Disables automatic rearrangement of Spaces.
 - Sets the Dock to auto-hide.
+- Disables showing recent items in Dock.
 - Sets the minimize effect to scale.
 
-CLI Apps:
+Clears and sets preferred dock items
+
+Installs CLI apps:
 - [Homebrew](https://brew.sh/)
-- [rbenv](https://github.com/rbenv/rbenv)
-- [nvm & npm](https://github.com/nvm-sh/nvm)
-- [python & pip](https://www.python.org/)
+- [nvm](https://github.com/nvm-sh/nvm)
 - [shellcheck](https://github.com/koalaman/shellcheck)
 - [tree](http://mama.indstate.edu/users/ice/tree/)
 - [wget](https://www.gnu.org/software/wget/)
 - [neofetch](https://github.com/dylanaraps/neofetch)
 - [cmatrix](https://github.com/abishekvashok/cmatrix/)
 
-Apps:
+Installs apps:
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Gimp](https://www.gimp.org/)
-- [Rectangle](https://rectangleapp.com/) 
+- [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/) 
 - [iTerm2](https://iterm2.com)
-- [Notable](https://notable.md/)
+- [1Password](https://1password.com/)
+- [Raycast](https://www.raycast.com/)
+- [Obsidian](https://obsidian.md/)
+- [Steam](https://store.steampowered.com/)
 
-Fonts:
-- [Fira Code](https://github.com/tonsky/FiraCode)
+Installs fonts:
+- [Caskaydia Cove Nerdfont](https://www.nerdfonts.com/font-downloads)
 
 #### Usage
 ```
